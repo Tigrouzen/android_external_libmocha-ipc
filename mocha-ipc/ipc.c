@@ -60,11 +60,8 @@ void ipc_init(void)
 	int i;
 	memset(cached_bcd_imei, 0, sizeof(cached_bcd_imei));
 	memset(cached_imei, 0, sizeof(cached_imei));
-#if defined(DEVICE_JET)
-    jet_ipc_register();
-#elif defined(DEVICE_WAVE)
     wave_ipc_register();
-#endif
+
 
 	for(i = 0; i < IPC_RIL_CB_LAST; i++)
 	{

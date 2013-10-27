@@ -24,11 +24,9 @@
 
 #include <radio.h>
 
-#if defined(DEVICE_JET)
-#include "device/jet/fm.h"
-#elif defined(DEVICE_WAVE)
+
 #include "device/wave/fm.h"
-#endif
+
 /*
  * Declarations copied from Dolphin headers
  */

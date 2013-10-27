@@ -25,11 +25,9 @@
 
 #include <radio.h>
 
-#if defined(DEVICE_JET)
-#define SIM_SUBTYPE_DIFF 0x18
-#elif defined(DEVICE_WAVE)
+
 #define SIM_SUBTYPE_DIFF 0x1D
-#endif
+
 
 #define SIM_SESSION_COUNT 0x20
 #define SIM_SESSION_START_ID 0

@@ -45,17 +45,12 @@
  *
  */
 
-#ifdef DEVICE_JET
-#include <device/jet/sound_data.h>
-char *nvm_file_path = "/efs/bml4";
-char *power_dev_path = "/sys/devices/platform/i2c-gpio.6/i2c-6/6-0066/max8998-charger/power_supply/"; 
-char *fake_apps_version = "S800MPOJB1";
-#elif defined(DEVICE_WAVE)
+
 #include <device/wave/sound_data.h>
 char *nvm_file_path = "/dev/block/mtdblock0";
 char *power_dev_path = "/sys/devices/platform/i2c-gpio.6/i2c-6/6-0066/max8998-charger/power_supply/"; 
 char *fake_apps_version = "S8530JPKA1";
-#endif
+
 
 /*
  * TODO: Read sound config data from file
@@ -105,32 +100,6 @@ void handleReadNvRequest(struct drvNvPacket* rxNvPacket)
 	free(request.data);
 }
 
-#if defined(DEVICE_JET)
-void handleJetPmicRequest(struct modem_io *ipc_frame)
-{
-    uint8_t *payload;
-	int32_t retval;
-	uint8_t params[3];
-	struct drvPMICPacket *pmic_packet;
-
-	pmic_packet = (struct drvPMICPacket *)(ipc_frame->data);
-
-	DEBUG_I("PMIC value = 0x%x", pmic_packet->value);
-
-	params[0] = 1;
-	params[1] = 0x9B; //SIMLTTV;
-	if (pmic_packet->value >= 0x7D0)
-		params[2] = 0x2D;
-	else
-		params[2] = 0x15;
-
-	retval = ipc_modem_io(params, IOCTL_MODEM_PMIC);
-
-	DEBUG_I("ioctl return value = 0x%x", retval);
-
-	ipc_send(ipc_frame);
-}
-#endif
 
 void handleSystemInfoRequest()
 {
@@ -219,12 +188,7 @@ void ipc_parse_drv(struct ipc_client* client, struct modem_io *ipc_frame)
 		DEBUG_I("ReadNvBackup IpcDrv packet received");
 		handleReadNvRequest((struct drvNvPacket *)(ipc_frame->data));
 		break;
-#if defined (DEVICE_JET)
-	case PMIC_PACKET:
-		DEBUG_I("PMIC IpcDrv packet received");
-		handleJetPmicRequest(ipc_frame);
-		break;
-#endif
+
 	case SYSTEM_INFO_REQ:
 		DEBUG_I("SYSTEM_INFO_REQ IpcDrv packet received");
 		handleSystemInfoRequest();

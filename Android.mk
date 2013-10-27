@@ -30,16 +30,16 @@ mocha-ipc_files := \
 	mocha-ipc/tapi_dmh.c \
 	mocha-ipc/tapi_config.c \
 	mocha-ipc/bt.c \
-	mocha-ipc/device/$(TARGET_DEVICE)/$(TARGET_DEVICE)_ipc.c
+	mocha-ipc/device/wave/wave_ipc.c
 
 
 ifeq ($(TARGET_DEVICE),jet)
 	LOCAL_CFLAGS += -DDEVICE_JET
 endif
 
-ifeq ($(TARGET_DEVICE),wave)
+
 	LOCAL_CFLAGS += -DDEVICE_WAVE
-endif
+
 
 ifeq ($(DEBUG),true)
 	LOCAL_CFLAGS += -DDEBUG
@@ -68,9 +68,8 @@ modemctrl_files := tools/modemctrl.c
 ifeq ($(TARGET_DEVICE),jet)
 	LOCAL_CFLAGS += -DDEVICE_JET
 endif
-ifeq ($(TARGET_DEVICE),wave)
+
 	LOCAL_CFLAGS += -DDEVICE_WAVE
-endif
 
 DEBUG := true
 
@@ -137,11 +136,10 @@ LOCAL_CFLAGS := -D_GNU_SOURCE
 ifeq ($(TARGET_DEVICE),jet)
 	LOCAL_CFLAGS += -DDEVICE_JET
 endif
-ifeq ($(TARGET_DEVICE),wave)
-	LOCAL_CFLAGS += -DDEVICE_WAVE
-endif
 
-LOCAL_C_INCLUDES := external/bada-modemril/libmocha-ipc/include
+	LOCAL_CFLAGS += -DDEVICE_WAVE
+
+LOCAL_C_INCLUDES := device/samsung/wave/libmocha-ipc/include
 LOCAL_C_INCLUDES += hardware/ril/libmocha-ipc/include
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/include
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/mocha-ipc
